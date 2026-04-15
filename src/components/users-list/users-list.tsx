@@ -1,34 +1,19 @@
-'use client';
-
-import { useEffect, useState } from 'react';
-
 import UserCard from '../user-card/user-card';
+
+import styles from './user-list.module.css'
+
 import { UserClient } from '@/types';
 
-const UsersList = () => {
-  const [users, setUsers] = useState<UserClient[]>([]);
+type UsersListProps = {
+  users: Array<UserClient>
+}
 
-  useEffect(() => {
-    const getUsersList = async (): Promise<void> => {
-      const res = await fetch('api/users');
-
-      if (!res.ok) {
-        throw new Error('Ошибка загрузки');
-      }
-
-      const list = await res.json();
-
-      setUsers(list);
-    };
-
-    getUsersList();
-  }, []);
-
+const UsersList = ({ users }: UsersListProps) => {
   return (
-    <ul>
-      {users.map((user, index) => {
+    <ul className={styles.list}>
+      {users.map((user) => {
         return (
-          <li key={index + 1}>
+          <li key={user._id}>
             <UserCard user={user} />
           </li>
         );

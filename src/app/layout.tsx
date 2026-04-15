@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 
 import '@/app/globals.css';
 import Navigation from '@/components/navigation/navigation';
+import Footer from '@/components/footer/footer';
 
 const inter = Inter({
   subsets: ['cyrillic', 'latin'],
@@ -11,8 +12,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Моё первое приложение',
-  description: 'Учебный проект на Next.js, TypeScript и CSS Modules',
+  title: 'Царь-Тудушка',
+  description: 'Проект для тренировки работы со стеком TS + React + Next.js',
 };
 
 const RootLayout = ({
@@ -24,7 +25,9 @@ const RootLayout = ({
     <html lang="ru" className={inter.variable}>
       <body>
         <Navigation />
+        <div className="bg-grid"></div>
         <main className="container page">{children}</main>
+        <Footer />
       </body>
     </html>
   );

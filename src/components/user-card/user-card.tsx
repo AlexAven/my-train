@@ -5,7 +5,7 @@ import { UserClient } from '@/types';
 
 type UserCardProps = {
   user: UserClient
-}
+};
 
 const UserCard = ({ user }: UserCardProps) => {
   const { name, email, _id: id } = user;
@@ -16,7 +16,7 @@ const UserCard = ({ user }: UserCardProps) => {
         <div className={styles.title}>{name}</div>
         <div className={styles.sub}>{email}</div>
       </div>
-      <span aria-hidden>{'>'}</span>
+      <span aria-hidden>&rang;</span>
     </Link>
   );
 };
