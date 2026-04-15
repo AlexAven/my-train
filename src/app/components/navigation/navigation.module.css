@@ -1,0 +1,35 @@
+.navigation {
+  position: sticky;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+
+  width: max-content;
+
+  border-radius: 999px;
+  padding: 10px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+
+  backdrop-filter: saturate(130%) blur(10px);
+}
+
+/* Ссылки навигации */
+.navLink {
+  color: var(--muted);
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 999px;
+  transition: 150ms ease;
+}
+
+.navLink:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.04);
+}
