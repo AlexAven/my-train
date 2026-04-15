@@ -26,4 +26,31 @@ const getAllUsers = async () => {
   return users;
 };
 
-export { getAllUsers };
+const searchUsersByName = async (query: string) => {
+  const normalizedQuery = query.toLowerCase().trim();
+
+  const cacheKey = `cache:users:search:${normalizedQuery}`;
+
+  const redis = await getRedisClient();
+  const cached = await redis.get(cacheKey);
+
+  if (cached) {
+    return JSON.parse(cached);
+  }
+
+  await connectToDatabase();
+
+  const users = await User.find({
+    name: { $regex: normalizedQuery, $options: 'i' },
+  })
+    .lean()
+    .sort({ createdAt: -1 });
+
+  await redis.set(cacheKey, JSON.stringify(users), {
+    EX: 30,
+  });
+
+  return users;
+};
+
+export { getAllUsers, searchUsersByName };
