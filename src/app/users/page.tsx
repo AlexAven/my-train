@@ -1,4 +1,4 @@
-import UsersList from '@components/users-list/users-list';
+import UsersList from '@/components/users-list/users-list';
 
 import styles from './page.module.css';
 
