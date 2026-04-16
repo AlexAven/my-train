@@ -1,0 +1,21 @@
+.wrapper {
+  padding: 10px 0;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 999px;
+  padding: 10px 16px;
+}
+
+.btn:hover {
+  background: rgba(255, 255, 255, 0.07);
+}
