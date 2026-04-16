@@ -1,9 +1,11 @@
 import connectToDatabase from '@/lib/db/mongodb';
 import getRedisClient from '@/lib/db/redis';
+import { escapeRegex } from '../utils/escape-regex';
 import User from '@/models/user';
 
 const USERS_CACHE_KEY = 'cache:users:all';
 const CACHE_TTL_SECONDS = 60;
+const SEARCH_CACHE_TTL_SECONDS = 30;
 
 const getAllUsers = async () => {
   const redis = await getRedisClient();
@@ -40,14 +42,16 @@ const searchUsersByName = async (query: string) => {
 
   await connectToDatabase();
 
+  const safeQuery = escapeRegex(normalizedQuery);
+
   const users = await User.find({
-    name: { $regex: normalizedQuery, $options: 'i' },
+    name: { $regex: safeQuery, $options: 'i' },
   })
     .lean()
     .sort({ createdAt: -1 });
 
   await redis.set(cacheKey, JSON.stringify(users), {
-    EX: 30,
+    EX: SEARCH_CACHE_TTL_SECONDS,
   });
 
   return users;
