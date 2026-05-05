@@ -76,8 +76,8 @@ const getUserById = async (id: string) => {
   const cachedAll = await redis.get(CACHE_USERS_ALL);
 
   if (cachedAll) {
-    const users = JSON.parse(cachedAll);
-    const selectedtUser = users.find((user: UserClient) => user._id === id);
+    const users: UserClient[] = JSON.parse(cachedAll);
+    const selectedtUser = users.find((user) => user._id === id);
 
     if (selectedtUser) {
       await redis.set(CACHE_KEY_USER(id), JSON.stringify(selectedtUser), {
@@ -91,10 +91,10 @@ const getUserById = async (id: string) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return notFound();
   }
-  
+
   await connectToDatabase();
 
-  const user = await User.findById(id).lean();
+  const user: UserClient | null = await User.findById(id).lean();
 
   if (!user) return null;
 

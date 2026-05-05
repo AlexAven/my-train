@@ -1,10 +1,11 @@
-import mongoose from 'mongoose';
+import { Types } from 'mongoose';
 
 import connectToDatabase from '@/lib/db/mongodb';
 import getRedisClient from '@/lib/db/redis';
 import Todo from '@/models/todo';
+import normalizeTodo from '../utils/normalize-todo';
 
-// import { TodoClient } from '@/types';
+import { TodoClient, TodoType } from '@/types';
 
 const CACHE_TODOS_ALL = 'cache:todos:all';
 // const CACHE_TODO = (id: string) => `cache:todo:${id}`;
@@ -16,20 +17,19 @@ const getAllTodos = async () => {
   const cached = await redis.get(CACHE_TODOS_ALL);
 
   if (cached) {
-    const todos = JSON.parse(cached);
-
+    const todos: TodoClient[] = JSON.parse(cached);
     return todos;
   }
 
   await connectToDatabase();
 
-  const todos = await Todo.find().lean().sort({ createdAt: -1 });
+  const todos: TodoType[] = (await Todo.find().lean().sort({ createdAt: -1 }));
 
   await redis.set(CACHE_TODOS_ALL, JSON.stringify(todos), {
     EX: CACHE_TTL_TODOS_SECONDS,
   });
 
-  return todos;
+  return todos.map((todo) => (normalizeTodo(todo)));
 };
 
 // const getTodoById = async (id: string) => {
@@ -73,22 +73,37 @@ const getAllTodos = async () => {
 // };
 
 const toggleTodo = async (id: string, isDone: boolean) => {
-  if (!mongoose.Types.ObjectId.isValid(id)) {
+  if (!Types.ObjectId.isValid(id)) {
     throw new Error('Невалидный id задачи');
   }
 
   await connectToDatabase();
 
-  const updatedTodo = await Todo.findByIdAndUpdate(id, { isDone }, { returnDocument: 'after' });
+  const updatedTodo: TodoType | null = await Todo.findByIdAndUpdate(id, { isDone }, { returnDocument: 'after' });
 
   if (!updatedTodo) {
-    throw new Error('Задание не найдена');
+    throw new Error('Задание не найдено');
   }
 
   const redis = await getRedisClient();
   await redis.del(CACHE_TODOS_ALL);
-
-  return updatedTodo;
 };
 
-export { getAllTodos, toggleTodo };
+const deleteTodo = async (id: string) => {
+  if (!Types.ObjectId.isValid(id)) {
+    throw new Error('Невалидный id задачи');
+  }
+
+  await connectToDatabase();
+
+  const deletedTodo: TodoType | null = await Todo.findByIdAndDelete(id);
+
+  if (!deletedTodo) {
+    throw new Error('Задание не найдено');
+  }
+
+  const redis = await getRedisClient();
+  await redis.del(CACHE_TODOS_ALL);
+};
+
+export { getAllTodos, toggleTodo, deleteTodo };
