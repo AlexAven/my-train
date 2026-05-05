@@ -2,7 +2,7 @@
 
 import { useOptimistic, useTransition } from 'react';
 
-import toggleTodoAction from '@/app/todo/actions';
+import { deleteTodoAction, toggleTodoAction } from '@/app/todo/actions';
 
 import type { TodoClient } from '@/types';
 
@@ -30,6 +30,16 @@ const TodoItem = ({ todo }: TodoItemProps) => {
     });
   };
 
+  const handleClick = () => {
+    startTransition(async () => {
+      const result = await deleteTodoAction(todo._id);
+
+      if (!result.ok) {
+        console.error(result.error);
+      }
+    });
+  };
+
   return (
     <li className={styles.item}>
       <input
@@ -38,14 +48,21 @@ const TodoItem = ({ todo }: TodoItemProps) => {
         name="todos"
         id={todo._id}
         checked={optimisticDone}
-        value={todo.title}
         disabled={isPending}
         onChange={handleChange}
       />
       <label className={optimisticDone ? styles.done : ''} htmlFor={todo._id}>
         {todo.title}
       </label>
-      <span className={styles.delCross}>&#x2715;</span>
+      <button
+        className={styles.delBtn}
+        type="button"
+        aria-label="Удалить задачу"
+        disabled={isPending}
+        onClick={handleClick}
+      >
+        &#x2715;
+      </button>
     </li>
   );
 };

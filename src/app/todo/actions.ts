@@ -2,12 +2,13 @@
 
 import { revalidatePath } from 'next/cache';
 
-import { toggleTodo } from '@/lib/services/todo-service';
+import { deleteTodo, toggleTodo } from '@/lib/services/todo-service';
 
 const toggleTodoAction = async (id: string, isDone: boolean) => {
   try {
     await toggleTodo(id, isDone);
     revalidatePath('/todo');
+
     return { ok: true as const };
   } catch (error) {
     console.error('toggleTodoAction error:', error);
@@ -15,4 +16,16 @@ const toggleTodoAction = async (id: string, isDone: boolean) => {
   }
 };
 
-export default toggleTodoAction;
+const deleteTodoAction = async (id: string) => {
+  try {
+    await deleteTodo(id);
+    revalidatePath('/todo');
+
+    return { ok: true as const };
+  } catch (error) {
+    console.error('deleteTodoAction error:', error);
+    return { ok: false as const, error: 'Не удалось удалить задачу' };
+  }
+};
+
+export { toggleTodoAction, deleteTodoAction };

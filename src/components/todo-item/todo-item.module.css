@@ -11,13 +11,14 @@
   color: rgb(139, 137, 137);
 }
 
-.delCross {
+.delBtn {
+  all: unset;
   display: inline-block;
   padding: 0 15px;
   transition: transform 0.1s ease, color 0.5s;
 }
 
-.delCross:hover {
+.delBtn:hover {
   cursor: pointer;
   color: rgb(243, 152, 152);
   transform: scale(1.2);
