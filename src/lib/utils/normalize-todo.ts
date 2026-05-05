@@ -1,5 +1,10 @@
-import { TodoClient } from '@/types';
+import { TodoClient, TodoType } from '@/types';
 
-const normalizeTodo = (todo: TodoClient) => ({ ...todo, _id: String(todo._id) });
+const normalizeTodo = (todo: TodoType): TodoClient => ({
+  ...todo,
+  _id: String(todo._id),
+  createdAt: todo.createdAt.toISOString(),
+  updatedAt: todo.updatedAt.toISOString(),
+});
 
 export default normalizeTodo;
