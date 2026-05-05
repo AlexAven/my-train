@@ -88,11 +88,11 @@ const getUserById = async (id: string) => {
     }
   }
 
-  await connectToDatabase();
-
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return notFound();
   }
+  
+  await connectToDatabase();
 
   const user = await User.findById(id).lean();
 

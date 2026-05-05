@@ -1,0 +1,24 @@
+.item {
+  padding-bottom: 10px;
+}
+
+.checkbox {
+  margin-right: 10px;
+}
+
+.done{
+  text-decoration: line-through;
+  color: rgb(139, 137, 137);
+}
+
+.delCross {
+  display: inline-block;
+  padding: 0 15px;
+  transition: transform 0.1s ease, color 0.5s;
+}
+
+.delCross:hover {
+  cursor: pointer;
+  color: rgb(243, 152, 152);
+  transform: scale(1.2);
+}
