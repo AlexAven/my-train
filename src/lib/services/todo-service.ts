@@ -6,12 +6,9 @@ import Todo from '@/models/todo';
 import normalizeTodo from '../utils/normalize-todo';
 
 import { TodoClient, TodoType } from '@/types';
-import { title } from 'process';
 
 const CACHE_TODOS_ALL = 'cache:todos:all';
-// const CACHE_TODO = (id: string) => `cache:todo:${id}`;
 const CACHE_TTL_TODOS_SECONDS = 60;
-// const CACHE_TTL_TODO_SECONDS = 30;
 
 const getAllTodos = async () => {
   const redis = await getRedisClient();
@@ -45,46 +42,6 @@ const addTodo = async (value: string) => {
   const redis = await getRedisClient();
   await redis.del(CACHE_TODOS_ALL);
 };
-
-// const getTodoById = async (id: string) => {
-//   const redis = await getRedisClient();
-//   const cachedTodo = await redis.get(CACHE_TODO(id));
-
-//   if (cachedTodo) {
-//     return JSON.parse(cachedTodo);
-//   }
-
-//   const cachedAll = await redis.get(CACHE_TODOS_ALL);
-
-//   if (cachedAll) {
-//     const todos = JSON.parse(cachedAll);
-//     const selectedTodo = todos.find((todo: TodoClient) => todo._id === id);
-
-//     if (selectedTodo) {
-//       await redis.set(CACHE_TODO(id), JSON.stringify(selectedTodo), {
-//         EX: CACHE_TTL_TODO_SECONDS,
-//       });
-
-//       return selectedTodo;
-//     }
-//   }
-
-//   await connectToDatabase();
-
-//   if (!mongoose.Types.ObjectId.isValid(id)) {
-//     return notFound();
-//   }
-
-//   const selectedTodo = await Todo.findById(id).lean();
-
-//   if (!selectedTodo) return null;
-
-//   await redis.set(CACHE_TODO(id), JSON.stringify(selectedTodo), {
-//     EX: CACHE_TTL_TODO_SECONDS,
-//   });
-
-//   return selectedTodo;
-// };
 
 const toggleTodo = async (id: string, isDone: boolean) => {
   if (!Types.ObjectId.isValid(id)) {

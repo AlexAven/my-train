@@ -1,7 +1,8 @@
 import { useState, useTransition } from 'react';
 
-import styles from './add-todo-bar.module.css';
 import { addTodoAction } from '@/app/todo/actions';
+
+import styles from './add-todo-bar.module.css';
 
 const AddTodoBar = () => {
   const [currentValue, setCurrentValue] = useState('');
@@ -39,6 +40,7 @@ const AddTodoBar = () => {
         type="text"
         id="create_todo"
         placeholder="Введите вашу задачу..."
+        autoComplete="off"
         value={currentValue}
         onChange={handleChange}
       />
