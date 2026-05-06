@@ -2,7 +2,19 @@
 
 import { revalidatePath } from 'next/cache';
 
-import { deleteTodo, toggleTodo } from '@/lib/services/todo-service';
+import { addTodo, deleteTodo, toggleTodo } from '@/lib/services/todo-service';
+
+const addTodoAction = async (title: string) => {
+  try {
+    await addTodo(title);
+    revalidatePath('/todo');
+
+    return { ok: true as const };
+  } catch (error) {
+    console.error('addTodoAction error:', error);
+    return { ok: false as const, error: 'Не создать задачу' };
+  }
+};
 
 const toggleTodoAction = async (id: string, isDone: boolean) => {
   try {
@@ -28,4 +40,4 @@ const deleteTodoAction = async (id: string) => {
   }
 };
 
-export { toggleTodoAction, deleteTodoAction };
+export { addTodoAction, toggleTodoAction, deleteTodoAction };

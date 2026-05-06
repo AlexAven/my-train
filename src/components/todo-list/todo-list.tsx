@@ -1,5 +1,7 @@
-import normalizeTodo from '@/lib/utils/normalize-todo';
+'use client'
+
 import TodoItem from '../todo-item/todo-item';
+import AddTodoBar from '../add-todo-bar/add-todo-bar';
 
 import { TodoClient } from '@/types';
 
@@ -11,14 +13,15 @@ type TodoListProps = {
 
 const TodoList = ({ todos }: TodoListProps) => {
   return (
-    <div>
+    <section className={styles.wrapper}>
+      <h1>Список дел</h1>
+      <AddTodoBar />
       <ul className={styles.todoList}>
-        {todos.map((item) => {
-          const todo = normalizeTodo(item);
+        {todos.map((todo) => {
           return <TodoItem key={todo._id} todo={todo} />;
         })}
       </ul>
-    </div>
+    </section>
   );
 };
 

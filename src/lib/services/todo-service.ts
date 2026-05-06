@@ -6,6 +6,7 @@ import Todo from '@/models/todo';
 import normalizeTodo from '../utils/normalize-todo';
 
 import { TodoClient, TodoType } from '@/types';
+import { title } from 'process';
 
 const CACHE_TODOS_ALL = 'cache:todos:all';
 // const CACHE_TODO = (id: string) => `cache:todo:${id}`;
@@ -30,6 +31,19 @@ const getAllTodos = async () => {
   });
 
   return todos.map((todo) => (normalizeTodo(todo)));
+};
+
+const addTodo = async (value: string) => {
+  await connectToDatabase();
+
+  const newTodo = await Todo.create({ title: value, isDone: false })
+
+  if (!newTodo) {
+    throw new Error('Не удалось создать задание');
+  }
+
+  const redis = await getRedisClient();
+  await redis.del(CACHE_TODOS_ALL);
 };
 
 // const getTodoById = async (id: string) => {
@@ -106,4 +120,4 @@ const deleteTodo = async (id: string) => {
   await redis.del(CACHE_TODOS_ALL);
 };
 
-export { getAllTodos, toggleTodo, deleteTodo };
+export { getAllTodos, toggleTodo, deleteTodo, addTodo };

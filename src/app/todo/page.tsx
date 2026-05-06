@@ -8,9 +8,9 @@ const TodoListPage = async () => {
 
 
   return (
-    <div>
+    <>
       <TodoList todos={todos} />
-    </div>
+    </>
   );
 };
 
