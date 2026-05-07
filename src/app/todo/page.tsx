@@ -6,7 +6,6 @@ import { TodoClient } from '@/types';
 const TodoListPage = async () => {
   const todos: Array<TodoClient> = await getAllTodos();
 
-
   return (
     <>
       <TodoList todos={todos} />

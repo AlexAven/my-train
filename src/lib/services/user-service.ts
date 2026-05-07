@@ -81,7 +81,7 @@ const getUserById = async (id: string) => {
 
     if (selectedtUser) {
       await redis.set(CACHE_KEY_USER(id), JSON.stringify(selectedtUser), {
-        EX: CACHE_TTL_USER_SECONDS
+        EX: CACHE_TTL_USER_SECONDS,
       });
 
       return selectedtUser;

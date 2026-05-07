@@ -22,7 +22,6 @@ export type UserClient = {
   updatedAt: string;
 };
 
-
 export type TodoType = InferredTodo & {
   _id: Types.ObjectId;
   createdAt: Date;

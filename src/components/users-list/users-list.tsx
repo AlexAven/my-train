@@ -1,12 +1,12 @@
 import UserCard from '../user-card/user-card';
 
-import styles from './user-list.module.css'
+import styles from './user-list.module.css';
 
 import { UserClient } from '@/types';
 
 type UsersListProps = {
-  users: Array<UserClient>
-}
+  users: Array<UserClient>;
+};
 
 const UsersList = ({ users }: UsersListProps) => {
   return (

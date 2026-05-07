@@ -6,7 +6,7 @@ import { deleteTodoAction, toggleTodoAction } from '@/app/todo/actions';
 
 import type { TodoClient } from '@/types';
 
-import styles from './todo-item.module.css'
+import styles from './todo-item.module.css';
 
 type TodoItemProps = {
   todo: TodoClient;

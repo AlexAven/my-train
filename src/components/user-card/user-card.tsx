@@ -4,7 +4,7 @@ import styles from './user-card.module.css';
 import { UserClient } from '@/types';
 
 type UserCardProps = {
-  user: UserClient
+  user: UserClient;
 };
 
 const UserCard = ({ user }: UserCardProps) => {

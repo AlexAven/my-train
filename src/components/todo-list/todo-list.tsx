@@ -1,11 +1,11 @@
-'use client'
+'use client';
 
 import TodoItem from '../todo-item/todo-item';
 import AddTodoBar from '../add-todo-bar/add-todo-bar';
 
 import { TodoClient } from '@/types';
 
-import styles from './todo-list.module.css'
+import styles from './todo-list.module.css';
 
 type TodoListProps = {
   todos: Array<TodoClient>;

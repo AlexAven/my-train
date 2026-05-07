@@ -6,7 +6,7 @@
   margin-right: 10px;
 }
 
-.done{
+.done {
   text-decoration: line-through;
   color: rgb(139, 137, 137);
 }
@@ -15,7 +15,9 @@
   all: unset;
   display: inline-block;
   padding: 0 15px;
-  transition: transform 0.1s ease, color 0.5s;
+  transition:
+    transform 0.1s ease,
+    color 0.5s;
 }
 
 .delBtn:hover {

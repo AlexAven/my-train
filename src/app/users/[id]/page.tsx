@@ -24,7 +24,6 @@ const UserPage = async ({ params }: UserPageProps) => {
   const updated = new Date(updatedAt);
   const isEdited = updated.getTime() !== created.getTime();
 
-
   return (
     <section>
       <h1 className={styles.title}>Данные пользователя</h1>

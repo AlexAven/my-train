@@ -21,19 +21,19 @@ const getAllTodos = async () => {
 
   await connectToDatabase();
 
-  const todos: TodoType[] = (await Todo.find().lean().sort({ createdAt: -1 }));
+  const todos: TodoType[] = await Todo.find().lean().sort({ createdAt: -1 });
 
   await redis.set(CACHE_TODOS_ALL, JSON.stringify(todos), {
     EX: CACHE_TTL_TODOS_SECONDS,
   });
 
-  return todos.map((todo) => (normalizeTodo(todo)));
+  return todos.map((todo) => normalizeTodo(todo));
 };
 
 const addTodo = async (value: string) => {
   await connectToDatabase();
 
-  const newTodo = await Todo.create({ title: value, isDone: false })
+  const newTodo = await Todo.create({ title: value, isDone: false });
 
   if (!newTodo) {
     throw new Error('Не удалось создать задание');
@@ -50,7 +50,11 @@ const toggleTodo = async (id: string, isDone: boolean) => {
 
   await connectToDatabase();
 
-  const updatedTodo: TodoType | null = await Todo.findByIdAndUpdate(id, { isDone }, { returnDocument: 'after' });
+  const updatedTodo: TodoType | null = await Todo.findByIdAndUpdate(
+    id,
+    { isDone },
+    { returnDocument: 'after' },
+  );
 
   if (!updatedTodo) {
     throw new Error('Задание не найдено');
